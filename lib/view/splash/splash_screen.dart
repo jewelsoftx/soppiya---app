@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset("assets/images/loading.gif",height: 200,),
+        child: Image.asset("assets/images/logo.png",height: 200,),
       ),
     );
   }
