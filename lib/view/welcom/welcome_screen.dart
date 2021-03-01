@@ -73,10 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     return Scaffold(
       backgroundColor: Style.backgroundColor,
       body: Stack(
-        children: [
-          startButtonAlign(size)
-
-        ],
+        children: [startButtonAlign(size)],
       ),
     );
   }
@@ -109,12 +106,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 Expanded(
                   child: Column(
                     children: [
-                      _pageState == 3 ? Visibility(visible: false, child: indicatorWithText()) : indicatorWithText(),
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(left: 30, right: 30),
                           child: ListView(
                             children: [
+                              _pageState == 3
+                                  ? Visibility(visible: false, child: indicatorWithText())
+                                  : indicatorWithText(),
+                              SizedBox(height: size.height * .025),
                               CustomTextField(
                                 hints: "Enter your email",
                               ),
@@ -250,12 +250,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     );
   }
 
-  Column rememberMeColumn() {
-    return Column(
+   rememberMeColumn() {
+    return Wrap(
+      direction: Axis.vertical,
       children: [
         SizedBox(height: 20),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
@@ -274,6 +274,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 RegularText(text: 'Remember Me')
               ],
             ),
+            SizedBox(width: 30),
             GestureDetector(
                 onTap: () {
                   setState(() {
@@ -287,110 +288,115 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     );
   }
 
-  Column indicatorWithText() {
-    return Column(
-      children: [
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  color: Style.deSelectIndicatorColor,
-                  height: 3,
-                  width: totalIndicatorWidth,
-                ),
-                Container(
-                  color: Colors.transparent,
-                  height: 20,
-                  width: totalIndicatorWidth,
-                  child: Row(
-                    children: [
-                      showFirstIndicator == true
-                          ? Container(
-                              height: 3,
-                              width: halfIndicatorWidth,
-                              color: Color(0xff00A5FF),
-                            )
-                          : Visibility(
-                              maintainSize: true,
-                              maintainAnimation: true,
-                              maintainState: true,
-                              visible: false,
-                              child: Container(
-                                height: 3,
-                                width: halfIndicatorWidth,
-                                color: Colors.transparent,
-                              ),
-                            ),
-                      showFirstIndicator == false
-                          ? Container(
-                              height: 3,
-                              width: halfIndicatorWidth,
-                              color: Color(0xff00A5FF),
-                            )
-                          : Visibility(
-                              maintainSize: true,
-                              maintainAnimation: true,
-                              maintainState: true,
-                              visible: false,
-                              child: Container(
-                                height: 3,
-                                width: halfIndicatorWidth,
-                                color: Colors.transparent,
-                              ),
-                            ),
-                    ],
+  indicatorWithText() {
+    return Center(
+      child: Wrap(
+        direction: Axis.vertical,
+        children: [
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    color: Style.deSelectIndicatorColor,
+                    height: 3,
+                    width: totalIndicatorWidth,
                   ),
-                )
-              ],
-            )
-          ],
-        ),
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  showFirstIndicator = true;
-                  _pageState = 1;
-                });
-              },
-              child: Text(
-                "Sign In",
-                style: TextStyle(
-                  color: showFirstIndicator == true ? Style.selectedTextColor : Style.deSelectedTextColor,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            SizedBox(width: 5),
-            GestureDetector(
+                  Container(
+                    color: Colors.transparent,
+                    height: 20,
+                    width: totalIndicatorWidth,
+                    child: Row(
+                      children: [
+                        showFirstIndicator == true
+                            ? Container(
+                                height: 3,
+                                width: halfIndicatorWidth,
+                                color: Color(0xff00A5FF),
+                              )
+                            : Visibility(
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                visible: false,
+                                child: Container(
+                                  height: 3,
+                                  width: halfIndicatorWidth,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                        showFirstIndicator == false
+                            ? Container(
+                                height: 3,
+                                width: halfIndicatorWidth,
+                                color: Color(0xff00A5FF),
+                              )
+                            : Visibility(
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                visible: false,
+                                child: Container(
+                                  height: 3,
+                                  width: halfIndicatorWidth,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                      ],
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(width: 15),
+
+              GestureDetector(
                 onTap: () {
                   setState(() {
-                    showFirstIndicator = false;
-                    _pageState = 2;
+                    showFirstIndicator = true;
+                    _pageState = 1;
                   });
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: showFirstIndicator == false ? Style.selectedTextColor : Style.deSelectedTextColor,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w500,
-                    ),
+                child: Text(
+                  "Sign In",
+                  style: TextStyle(
+                    color: showFirstIndicator == true ? Style.selectedTextColor : Style.deSelectedTextColor,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w500,
                   ),
-                )),
-          ],
-        ),
-      ],
+                ),
+              ),
+              SizedBox(width: 5),
+              GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showFirstIndicator = false;
+                      _pageState = 2;
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: showFirstIndicator == false ? Style.selectedTextColor : Style.deSelectedTextColor,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

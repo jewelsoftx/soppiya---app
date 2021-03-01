@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shoppiya_admin/controller/splash_controller.dart';
 
@@ -10,7 +11,9 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset("assets/images/logo.png",height: 200,),
+        child:SvgPicture.asset(
+            'assets/images/icon.svg',
+        )
       ),
     );
   }
