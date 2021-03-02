@@ -8,6 +8,8 @@ class Style {
  static Color deSelectedTextColor = Color(0xff3E5570);
  static Color deSelectIndicatorColor = Color(0xffD1D8E0);
  static Color textFieldColor = Color(0xff95AFC0);
+ static Color logoTextColor = Color(0xff01126C);
+
 
 
 
