@@ -26,6 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   double containerWidth = Get.width * .35;
   double containerMargin = 0.0;
 
+  //............ start container .............//
   BoxDecoration _boxDecoration = BoxDecoration(
     color: Colors.white,
     borderRadius: BorderRadius.only(
@@ -37,10 +38,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   // check box
   bool _checkBoxValue = false;
 
-
   // logo space from top
 
-
+  double logoHeight = Get.height * .42;
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +57,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         containerWidth = size.width;
         containerMargin = Get.height * .015;
         showLogin = true;
+        logoHeight = Get.height * .32;
         // box decoration
         _boxDecoration = BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(10)));
         break;
       case 2:
         // SIGN UP
-        containerHeight = Get.height * .3;
+        containerHeight = Get.height * .38;
         isShowPassword = true;
         containerMargin = Get.height * .015;
         break;
@@ -79,17 +80,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       backgroundColor: Style.backgroundColor,
       body: Stack(
         children: [
-
           Positioned(
             right: 0,
             left: 0,
-            top: size.height * .5,
-            child: SvgPicture.asset(
-              'assets/images/logo.svg',
+            top: logoHeight,
+            child: Column(
+              children: [
+                SvgPicture.asset(
+                  'assets/images/logo.svg',
+                ),
+                SizedBox(height: Get.height * .04),
+                Text(
+                  "Welcome to Soppiya!",
+                  style: TextStyle(
+                      color: Style.logoTextColor, fontWeight: FontWeight.w600, fontFamily: "Montserrat", fontSize: 24),
+                ),
+                Text(
+                  "Make your eCommerce easy and fun!",
+                  style: TextStyle(color: Style.deSelectedTextColor, fontFamily: "Montserrat", fontSize: 14),
+                )
+              ],
             ),
           ),
-
-
           startButtonAlign(size),
         ],
       ),
@@ -111,13 +123,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           decoration: _boxDecoration,
           curve: Curves.easeOut,
           margin: EdgeInsets.all(containerMargin),
-          duration: Duration(milliseconds: 800),
+          duration: Duration(milliseconds: 400),
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              showLogin == false
-                  ? Padding(padding: EdgeInsets.only(top: 40), child: Text("Start",style: TextStyle(fontSize: 16, fontFamily: "Montserrat",fontWeight: FontWeight.w700),))
-                  : Visibility(visible: false, child: Text("")),
+              showLogin == false ? startButton() : Visibility(visible: false, child: Text("")),
               if (showLogin == false)
                 Visibility(visible: false, child: Text(""))
               else
@@ -137,15 +147,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                 hints: "Enter your email",
                               ),
                               (_pageState == 2)
-                                  ? Visibility(
-                                      visible: false,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: CustomTextField(
-                                          hints: "Enter your password",
-                                        ),
-                                      ),
-                                    )
+                                  ? Padding(
+                                    padding: EdgeInsets.only(top:Get.height * 0.03),
+                                    child: CustomTextField(
+                                      hints: "Referral code (optional)",
+                                    ),
+                                  )
                                   : (_pageState == 3)
                                       ? Visibility(
                                           visible: false,
@@ -209,7 +216,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                         children: [
                                           RegularText(text: "Already have an account?"),
                                           RegularText(
-                                            text: "Sign in instead",
+                                            text: " Sign in instead",
                                             color: Color(0xff00A5FF),
                                           ),
                                         ],
@@ -268,18 +275,31 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     );
   }
 
-   rememberMeColumn() {
+  // start button
+
+  Padding startButton() => Padding(
+      padding: EdgeInsets.only(top: Get.height * .05),
+      child: Center(
+        child: Text(
+          "Start",
+          style: TextStyle(fontSize: 16, fontFamily: "Montserrat", fontWeight: FontWeight.w700),
+        ),
+      ));
+
+  // remember me
+  rememberMeColumn() {
     return Wrap(
       direction: Axis.vertical,
       children: [
-        SizedBox(height: 20),
+        SizedBox(height: Get.height * 0.03),
         Row(
           children: [
+            SizedBox(width: Get.width * 0.01),
             Row(
               children: [
                 SizedBox(
-                  height: 20.0,
-                  width: 20.0,
+                  height: Get.height * 0.02,
+                  width: Get.height * 0.02,
                   child: Checkbox(
                       value: _checkBoxValue,
                       onChanged: (value) {
@@ -288,11 +308,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                         });
                       }),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: Get.height * 0.02),
                 RegularText(text: 'Remember Me')
               ],
             ),
-            SizedBox(width: 30),
+            SizedBox(width: Get.width * 0.1),
             GestureDetector(
                 onTap: () {
                   setState(() {
@@ -311,7 +331,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       child: Wrap(
         direction: Axis.vertical,
         children: [
-       //   SizedBox(height: 20),
+          //   SizedBox(height: 20),
           Stack(
             alignment: Alignment.center,
             children: [
@@ -369,7 +389,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(width: 15),
-
               GestureDetector(
                 onTap: () {
                   setState(() {
