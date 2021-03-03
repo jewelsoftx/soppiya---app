@@ -11,9 +11,13 @@ class AppConstant {
   static final String error_key = "Error";
   static final String success_key = "Success";
   static final String token_key = "token";
+  static final String emailKey = "email";
+  static final String passwordKey = "password";
+  static final String loginDataKey = "loginData";
+
 }
 
-void loadingIndicator() {
+void loadingIndicator(BuildContext context) {
   Get.dialog(
     Container(
       height: 100,

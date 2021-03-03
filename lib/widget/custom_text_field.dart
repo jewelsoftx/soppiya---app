@@ -3,14 +3,18 @@ import 'package:shoppiya_admin/utils/style.dart';
 
 class CustomTextField extends StatelessWidget {
   String hints;
+
+  TextEditingController controller ;
   CustomTextField({
     Key key,
-    this.hints,
+  @required  this.hints,
+  @required  this.controller
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       style: TextStyle(color: Style.textFieldColor, fontSize: 14),
       cursorColor: Style.textFieldColor,
       decoration: InputDecoration(

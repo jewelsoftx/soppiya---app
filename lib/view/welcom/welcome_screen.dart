@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shoppiya_admin/controller/auth_controller.dart';
 import 'package:shoppiya_admin/utils/style.dart';
 import 'package:shoppiya_admin/widget/custom_button.dart';
 import 'package:shoppiya_admin/widget/custom_text_field.dart';
@@ -12,6 +13,8 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
+  AuthController controller = Get.put(AuthController());
+
   int _pageState = 0;
   bool showLogin = false;
   bool isShowPassword = false;
@@ -144,21 +147,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                   : indicatorWithText(),
                               SizedBox(height: Get.height * 0.02),
                               CustomTextField(
+                                controller: controller.emailTextController,
                                 hints: "Enter your email",
                               ),
                               (_pageState == 2)
                                   ? Padding(
-                                    padding: EdgeInsets.only(top:Get.height * 0.03),
-                                    child: CustomTextField(
-                                      hints: "Referral code (optional)",
-                                    ),
-                                  )
+                                      padding: EdgeInsets.only(top: Get.height * 0.03),
+                                      child: CustomTextField(
+                                        controller: controller.referralTextController,
+                                        hints: "Referral code (optional)",
+                                      ),
+                                    )
                                   : (_pageState == 3)
                                       ? Visibility(
                                           visible: false,
                                           child: Padding(
                                             padding: EdgeInsets.only(top: 20),
                                             child: CustomTextField(
+                                              controller: controller.passwordTextController,
                                               hints: "Enter your password",
                                             ),
                                           ),
@@ -166,6 +172,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                       : Padding(
                                           padding: EdgeInsets.only(top: 20),
                                           child: CustomTextField(
+                                            controller: controller.passwordTextController,
                                             hints: "Enter your password",
                                           ),
                                         ),
@@ -178,8 +185,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                       : rememberMeColumn(),
 
                               SizedBox(height: 20),
-                              // login button
 
+                              // login button
                               (_pageState == 2)
                                   ? CustomButton(
                                       text: 'Send Verification Code'.toUpperCase(),
@@ -197,7 +204,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                       : CustomButton(
                                           text: 'LOGIN',
                                           onTab: () {
-                                            Get.snackbar("Clicked", 'login clicked');
+                                            controller.doLoginApiCall(context);
                                           },
                                         ),
 

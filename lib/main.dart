@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoppiya_admin/model/login_model.dart';
 
 import 'language/language_service.dart';
 import 'view/splash/splash_screen.dart';
 
 SharedPreferences prefs;
-
+LoginModel loginModel;
 void main() {
   runApp(MyApp());
 }
