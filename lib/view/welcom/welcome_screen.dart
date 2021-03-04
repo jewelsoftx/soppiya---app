@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shoppiya_admin/controller/auth_controller.dart';
 import 'package:shoppiya_admin/utils/style.dart';
 import 'package:shoppiya_admin/widget/custom_button.dart';
+import 'package:shoppiya_admin/widget/custom_loader.dart';
 import 'package:shoppiya_admin/widget/custom_text_field.dart';
 import 'package:shoppiya_admin/widget/regular_text.dart';
 
@@ -42,7 +44,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   bool _checkBoxValue = false;
 
   // logo space from top
-
   double logoHeight = Get.height * .42;
 
   @override
@@ -56,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         break;
       case 1:
         // LOGIN
-        containerHeight = Get.height * .42;
+        containerHeight = Get.height * .46;
         containerWidth = size.width;
         containerMargin = Get.height * .015;
         showLogin = true;
@@ -66,7 +67,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         break;
       case 2:
         // SIGN UP
-        containerHeight = Get.height * .38;
+        containerHeight = Get.height * .42;
         isShowPassword = true;
         containerMargin = Get.height * .015;
         break;
@@ -74,41 +75,48 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       case 3:
         //FORGOT
         containerMargin = Get.height * .015;
-        containerHeight = Get.height * .25;
+        containerHeight = Get.height * .3;
         isShowPassword = false;
         break;
     }
 
-    return Scaffold(
-      backgroundColor: Style.backgroundColor,
-      body: Stack(
-        children: [
-          Positioned(
-            right: 0,
-            left: 0,
-            top: logoHeight,
-            child: Column(
+    return Obx(() => ModalProgressHUD(
+          inAsyncCall: controller.isLoading.value,
+          progressIndicator: CustomLoader(),
+          child: Scaffold(
+            backgroundColor: Style.backgroundColor,
+            body: Stack(
               children: [
-                SvgPicture.asset(
-                  'assets/images/logo.svg',
+                Positioned(
+                  right: 0,
+                  left: 0,
+                  top: logoHeight,
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/logo.svg',
+                      ),
+                      SizedBox(height: Get.height * .04),
+                      Text(
+                        "Welcome to Soppiya!",
+                        style: TextStyle(
+                            color: Style.logoTextColor,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Montserrat",
+                            fontSize: 24),
+                      ),
+                      Text(
+                        "Make your eCommerce easy and fun!",
+                        style: TextStyle(color: Style.deSelectedTextColor, fontFamily: "Montserrat", fontSize: 14),
+                      )
+                    ],
+                  ),
                 ),
-                SizedBox(height: Get.height * .04),
-                Text(
-                  "Welcome to Soppiya!",
-                  style: TextStyle(
-                      color: Style.logoTextColor, fontWeight: FontWeight.w600, fontFamily: "Montserrat", fontSize: 24),
-                ),
-                Text(
-                  "Make your eCommerce easy and fun!",
-                  style: TextStyle(color: Style.deSelectedTextColor, fontFamily: "Montserrat", fontSize: 14),
-                )
+                startButtonAlign(size),
               ],
             ),
           ),
-          startButtonAlign(size),
-        ],
-      ),
-    );
+        ));
   }
 
   Align startButtonAlign(Size size) {
@@ -128,7 +136,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           margin: EdgeInsets.all(containerMargin),
           duration: Duration(milliseconds: 400),
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               showLogin == false ? startButton() : Visibility(visible: false, child: Text("")),
               if (showLogin == false)
@@ -146,16 +155,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                   ? Visibility(visible: false, child: indicatorWithText())
                                   : indicatorWithText(),
                               SizedBox(height: Get.height * 0.02),
-                              CustomTextField(
-                                controller: controller.emailTextController,
-                                hints: "Enter your email",
+
+                              Obx(
+                                () => CustomTextField(
+                                  controller: controller.emailTextController,
+                                  hints: "Enter your email",
+                                  isError: controller.isEmailError.value,
+                                  errorText: controller.emailErrorText.value,
+                                ),
                               ),
+
                               (_pageState == 2)
                                   ? Padding(
                                       padding: EdgeInsets.only(top: Get.height * 0.03),
                                       child: CustomTextField(
                                         controller: controller.referralTextController,
                                         hints: "Referral code (optional)",
+                                        isError: false,
                                       ),
                                     )
                                   : (_pageState == 3)
@@ -163,17 +179,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                           visible: false,
                                           child: Padding(
                                             padding: EdgeInsets.only(top: 20),
-                                            child: CustomTextField(
-                                              controller: controller.passwordTextController,
-                                              hints: "Enter your password",
+                                            child: Obx(
+                                              () => SizedBox(),
                                             ),
                                           ),
                                         )
                                       : Padding(
                                           padding: EdgeInsets.only(top: 20),
-                                          child: CustomTextField(
-                                            controller: controller.passwordTextController,
-                                            hints: "Enter your password",
+                                          child: Obx(
+                                            () => CustomTextField(
+                                              controller: controller.passwordTextController,
+                                              hints: "Enter your password",
+                                              isError: controller.isPasswordError.value,
+                                              errorText: controller.passwordErrorText.value,
+                                            ),
                                           ),
                                         ),
 
@@ -184,27 +203,40 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                       ? Visibility(visible: false, child: rememberMeColumn())
                                       : rememberMeColumn(),
 
-                              SizedBox(height: 20),
+                              SizedBox(height: Get.height * 0.02),
 
+                              // api error message
+                              Obx(
+                                // ignore: unrelated_type_equality_checks
+                                () => controller.isShowApiMessage == false
+                                    ? SizedBox()
+                                    : Container(
+                                        margin: EdgeInsets.only(top: 15, bottom: 10),
+                                        child: Text(
+                                          "${controller.loginMessage}",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                              ),
                               // login button
                               (_pageState == 2)
                                   ? CustomButton(
                                       text: 'Send Verification Code'.toUpperCase(),
                                       onTab: () {
-                                        Get.snackbar("Clicked", 'Verification clicked');
+                                        controller.doSignUp();
                                       },
                                     )
                                   : (_pageState == 3)
                                       ? CustomButton(
                                           text: 'Send reset link'.toUpperCase(),
                                           onTab: () {
-                                            Get.snackbar("Clicked", 'resend clicked');
+                                            controller.doReset();
                                           },
                                         )
                                       : CustomButton(
                                           text: 'LOGIN',
                                           onTab: () {
-                                            controller.doLoginApiCall(context);
+                                            controller.doLoginApiCall();
                                           },
                                         ),
 
@@ -216,6 +248,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                         setState(() {
                                           _pageState = 1;
                                           showFirstIndicator = true;
+                                          controller.isShowApiMessage.value = false;
                                         });
                                       },
                                       child: Row(
@@ -234,6 +267,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                           onTap: () {
                                             setState(() {
                                               _pageState = 1;
+                                              controller.isShowApiMessage.value = false;
                                             });
                                           },
                                           child: Row(
@@ -255,6 +289,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                             setState(() {
                                               _pageState = 2;
                                               showFirstIndicator = false;
+                                              controller.isShowApiMessage.value = false;
                                             });
                                           },
                                           child: Row(
@@ -401,6 +436,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                   setState(() {
                     showFirstIndicator = true;
                     _pageState = 1;
+                    controller.isShowApiMessage.value = false;
                   });
                 },
                 child: Text(
@@ -418,6 +454,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                     setState(() {
                       showFirstIndicator = false;
                       _pageState = 2;
+                      controller.isShowApiMessage.value = false;
                     });
                   },
                   child: Padding(

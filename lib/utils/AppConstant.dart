@@ -5,31 +5,19 @@ import 'package:get/get.dart';
 
 class AppConstant {
   //......  share preference key
-  static final String token_S = "TOKEN";
-  static final String status_key = "status";
-  static final String message_key = "message";
-  static final String error_key = "Error";
-  static final String success_key = "Success";
-  static final String token_key = "token";
+  static final String tokenS = "TOKEN";
+  static final String statusKey = "status";
+  static final String messageKey = "message";
+  static final String errorKey = "Error";
+  static final String successKey = "Success";
+  static final String tokenKey = "token";
   static final String emailKey = "email";
   static final String passwordKey = "password";
   static final String loginDataKey = "loginData";
+  static final String referralKey = "referral";
 
 }
 
-void loadingIndicator(BuildContext context) {
-  Get.dialog(
-    Container(
-      height: 100,
-      width: 100,
-      child: Image.asset(
-        "assets/images/loading.gif",
-        height: 125.0,
-        width: 125.0,
-      ),
-    ),
-  );
-}
 
 void errorSnackbar(
   String msg,

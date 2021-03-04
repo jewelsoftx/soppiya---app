@@ -7,10 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:shoppiya_admin/main.dart';
 import 'package:shoppiya_admin/utils/AppConstant.dart';
 import 'package:shoppiya_admin/view/welcom/welcome_screen.dart';
+
 enum Method { POST, GET, PUT, DELETE, PATCH }
 
 class ApiClient {
-  static var header = {'token': '${prefs.getString(AppConstant.token_S)}'};
+  static var header = {'token': '${prefs.getString(AppConstant.tokenS)}'};
 
   static Future getFormData({
     @required String url,
@@ -29,17 +30,16 @@ class ApiClient {
     final response = await http.Response.fromStream(streamedResponse);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      showData(
-          url: url, method: Method.GET, response: response.body.toString());
+      showData(url: url, method: Method.GET, response: response.body.toString());
 
-      if (responseData[AppConstant.error_key] == "invalid access") {
+      if (responseData[AppConstant.errorKey] == "invalid access") {
         Get.offAll(WelcomeScreen());
       }
-      if (responseData[AppConstant.error_key] == "token expired. login again") {
+      if (responseData[AppConstant.errorKey] == "token expired. login again") {
         Get.offAll(WelcomeScreen());
       }
-      if (responseData.containsKey(AppConstant.error_key)) {
-        errorSnackbar(responseData[AppConstant.error_key]);
+      if (responseData.containsKey(AppConstant.errorKey)) {
+        errorSnackbar(responseData[AppConstant.errorKey]);
         return null;
       } else {
         return response.body;
@@ -51,14 +51,12 @@ class ApiClient {
   }
 
   static Future postFormDataWithFile(
-      {@required BuildContext context,
-        @required String url,
-        Map<String, String> body,
-        Method method = Method.POST,
-        bool enableHeader = false,
-        String fileKey,
-        File files}) async {
-    loadingIndicator(context);
+      {@required String url,
+      Map<String, String> body,
+      Method method = Method.POST,
+      bool enableHeader = false,
+      String fileKey,
+      File files}) async {
     var uri = Uri.parse(url);
     var request;
 
@@ -68,15 +66,13 @@ class ApiClient {
         request.headers.addAll(header);
         request.fields.addAll(body);
         if (files != null) {
-          request.files
-              .add(await http.MultipartFile.fromPath(fileKey, files.path));
+          request.files.add(await http.MultipartFile.fromPath(fileKey, files.path));
         }
       } else {
         request = new http.MultipartRequest("POST", uri);
         request.fields.addAll(body);
         if (files != null) {
-          request.files
-              .add(await http.MultipartFile.fromPath(fileKey, files.path));
+          request.files.add(await http.MultipartFile.fromPath(fileKey, files.path));
         }
       }
 
@@ -84,20 +80,16 @@ class ApiClient {
       var response = await http.Response.fromStream(streamedResponse);
       Get.back();
       final Map<String, dynamic> responseData = json.decode(response.body);
-      showData(
-          url: url,
-          body: body,
-          method: method,
-          response: response.body.toString());
+      showData(url: url, body: body, method: method, response: response.body.toString());
       if (response.statusCode == 200) {
-        if (responseData[AppConstant.error_key] == "invalid access") {
+        if (responseData[AppConstant.errorKey] == "invalid access") {
           Get.offAll(WelcomeScreen());
         }
-        if (responseData[AppConstant.error_key] == "token expired. login again") {
+        if (responseData[AppConstant.errorKey] == "token expired. login again") {
           Get.offAll(WelcomeScreen());
         }
-        if (responseData.containsKey(AppConstant.error_key)) {
-          errorSnackbar(responseData[AppConstant.error_key]);
+        if (responseData.containsKey(AppConstant.errorKey)) {
+          errorSnackbar(responseData[AppConstant.errorKey]);
 
           return null;
         } else {
@@ -115,45 +107,31 @@ class ApiClient {
   }
 
   static Future postFormData({
-    @required BuildContext context,
     @required String url,
     Map<String, String> body,
     Method method = Method.POST,
     bool enableHeader = false,
   }) async {
-    loadingIndicator(context);
     var uri = Uri.parse(url);
     var request;
 
     try {
       if (enableHeader) {
-        request = new http.MultipartRequest("POST", uri)
-          ..headers.addAll(header)
-          ..fields.addAll(body);
+        request = new http.MultipartRequest("POST", uri)..headers.addAll(header)..fields.addAll(body);
       } else {
         request = new http.MultipartRequest("POST", uri)..fields.addAll(body);
       }
       final streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
-
-      print("print response: "+response.toString());
       Get.back();
       final Map<String, dynamic> responseData = json.decode(response.body);
-      showData(
-          url: url,
-          body: body,
-          method: method,
-          response: response.body.toString());
+      showData(url: url, body: body, method: method, response: response.body.toString());
       if (response.statusCode == 200) {
-        if (responseData[AppConstant.error_key] == "invalid access") {
+        if (responseData[AppConstant.errorKey] == "invalid access") {
           Get.offAll(WelcomeScreen());
         }
-        if (responseData[AppConstant.error_key] == "token expired. login again") {
+        if (responseData[AppConstant.errorKey] == "token expired. login again") {
           Get.offAll(WelcomeScreen());
-        }
-        if (responseData.containsKey(AppConstant.error_key)) {
-          errorSnackbar(responseData[AppConstant.error_key]);
-          return null;
         } else {
           return response.body;
         }
