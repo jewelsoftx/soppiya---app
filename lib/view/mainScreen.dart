@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoppiya_admin/view/home.dart';
-import 'package:shoppiya_admin/view/sidebar/sidebar2.dart';
+import 'package:get/get.dart';
+import 'package:shoppiya_admin/controller/main_screen_controller.dart';
 import 'package:shoppiya_admin/view/sidebar/sitebar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -9,16 +9,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  var controller = Get.put(MainScreenController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-
-          HomePage(),
-
-          Sidebar2()
-
+          Obx(() => Center(child: Text("${controller.selectedItemTitle}"))),
+          SideBar(),
         ],
       ),
     );

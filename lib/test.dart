@@ -8,30 +8,31 @@ class Test extends StatefulWidget {
 class _TestState extends State<Test> {
   double height = 40.0;
 
-  BoxDecoration boxDecoration = BoxDecoration(
-    color: Colors.red,
-    borderRadius: BorderRadius.only(
-      topLeft: const Radius.circular(100.0),
-      topRight: const Radius.circular(100.0),
-    ),
-  );
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: height,
-            width: 40,
-            decoration: boxDecoration,
+      body: Center(
+        child: Container(
+          height: 80,
+          width: 80,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
           ),
-          RaisedButton(onPressed: () {
-            setState(() {
-              height = 100.0;
-            });
-          })
-        ],
+
+          child: CircleAvatar(
+            backgroundImage: AssetImage("assets/images/cook.png"),
+          ),
+        ),
       ),
     );
   }
