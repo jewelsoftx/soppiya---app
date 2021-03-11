@@ -9,9 +9,9 @@ class Style {
  static Color deSelectIndicatorColor = Color(0xffD1D8E0);
  static Color textFieldColor = Color(0xff95AFC0);
  static Color logoTextColor = Color(0xff01126C);
- static Color menuBgColor = Color(0xFF01126C);
+ static Color menuBgColor = Color(0xff01126c);
  static Color white = Color(0xffffffff);
- static Color menuIconColor = Color(0xff00a5ff);
+ static Color menuIconColor = Color(0xffffffff);
 
 
 
