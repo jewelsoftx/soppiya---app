@@ -10,7 +10,7 @@ import 'package:shoppiya_admin/networking/api_client.dart';
 import 'package:shoppiya_admin/networking/network_utils.dart';
 import 'package:shoppiya_admin/networking/url.dart';
 import 'package:shoppiya_admin/utils/AppConstant.dart';
-import 'package:shoppiya_admin/view/home.dart';
+import 'package:shoppiya_admin/view/mainScreen.dart';
 
 class AuthController extends GetxController {
   TextEditingController emailTextController = TextEditingController();
@@ -185,7 +185,7 @@ class AuthController extends GetxController {
         loginModel = loginModelFromJson(response);
         prefs.setString(AppConstant.loginDataKey, json.encode(loginModel.toJson()));
         prefs.setString(AppConstant.tokenS, loginModel.token);
-        Get.offAll(HomePage());
+        Get.offAll(MainScreen());
       }
     }
   }

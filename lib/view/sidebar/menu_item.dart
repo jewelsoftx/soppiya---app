@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoppiya_admin/utils/style.dart';
 
 class MenuItem extends StatelessWidget {
   final IconData icon;
@@ -12,20 +13,20 @@ class MenuItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.only(top: 16),
         child: Row(
           children: <Widget>[
             Icon(
               icon,
-              color: Colors.cyan,
-              size: 30,
+              color: Style.menuIconColor,
+              size: 24,
             ),
             SizedBox(
-              width: 20,
+              width: 16,
             ),
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 26, color: Colors.white),
+              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16, color: Colors.white),
             )
           ],
         ),

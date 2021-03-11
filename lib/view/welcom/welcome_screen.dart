@@ -192,6 +192,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                                               hints: "Enter your password",
                                               isError: controller.isPasswordError.value,
                                               errorText: controller.passwordErrorText.value,
+
                                             ),
                                           ),
                                         ),

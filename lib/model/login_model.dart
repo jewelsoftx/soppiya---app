@@ -42,16 +42,42 @@ class BusinessData {
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.logo,
+    this.currencySymbol,
+    this.address,
+    this.dob,
+    this.name,
+    this.nid,
+    this.phone,
+    this.businessAddress,
+    this.businessEmail,
+    this.businessName,
+    this.businessPhone,
+    this.tin,
+    this.tokenKey,
   });
 
   String status;
   String activePackage;
   String id;
   String email;
-  dynamic packageExpiresOn;
+  String packageExpiresOn;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
+  String logo;
+  String currencySymbol;
+  String address;
+  DateTime dob;
+  String name;
+  String nid;
+  String phone;
+  String businessAddress;
+  String businessEmail;
+  String businessName;
+  String businessPhone;
+  String tin;
+  String tokenKey;
 
   factory BusinessData.fromJson(Map<String, dynamic> json) => BusinessData(
     status: json["status"],
@@ -62,6 +88,19 @@ class BusinessData {
     createdAt: DateTime.parse(json["createdAt"]),
     updatedAt: DateTime.parse(json["updatedAt"]),
     v: json["__v"],
+    logo: json["logo"],
+    currencySymbol: json["currencySymbol"],
+    address: json["address"],
+    dob: DateTime.parse(json["dob"]),
+    name: json["name"],
+    nid: json["nid"],
+    phone: json["phone"],
+    businessAddress: json["businessAddress"],
+    businessEmail: json["businessEmail"],
+    businessName: json["businessName"],
+    businessPhone: json["businessPhone"],
+    tin: json["tin"],
+    tokenKey: json["tokenKey"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -73,6 +112,19 @@ class BusinessData {
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),
     "__v": v,
+    "logo": logo,
+    "currencySymbol": currencySymbol,
+    "address": address,
+    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+    "name": name,
+    "nid": nid,
+    "phone": phone,
+    "businessAddress": businessAddress,
+    "businessEmail": businessEmail,
+    "businessName": businessName,
+    "businessPhone": businessPhone,
+    "tin": tin,
+    "tokenKey": tokenKey,
   };
 }
 
@@ -86,26 +138,29 @@ class WebThemeData {
     this.id,
     this.businessId,
     this.v,
+    this.activeTheme,
   });
 
   ThemeSettings themeSettings;
   Widgets widgets;
   List<dynamic> plugins;
-  List<dynamic> themes;
+  List<String> themes;
   List<String> backEndModules;
   String id;
   String businessId;
   int v;
+  String activeTheme;
 
   factory WebThemeData.fromJson(Map<String, dynamic> json) => WebThemeData(
     themeSettings: ThemeSettings.fromJson(json["themeSettings"]),
     widgets: Widgets.fromJson(json["widgets"]),
     plugins: List<dynamic>.from(json["plugins"].map((x) => x)),
-    themes: List<dynamic>.from(json["themes"].map((x) => x)),
+    themes: List<String>.from(json["themes"].map((x) => x)),
     backEndModules: List<String>.from(json["backEndModules"].map((x) => x)),
     id: json["_id"],
     businessId: json["businessId"],
     v: json["__v"],
+    activeTheme: json["activeTheme"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -117,6 +172,7 @@ class WebThemeData {
     "_id": id,
     "businessId": businessId,
     "__v": v,
+    "activeTheme": activeTheme,
   };
 }
 
@@ -158,37 +214,37 @@ class ThemeSettings {
 
 class Widgets {
   Widgets({
-    this.header,
     this.home,
-    this.category,
     this.item,
+    this.category,
     this.footer,
+    this.header,
     this.info,
   });
 
-  List<Category> header;
   List<Category> home;
-  List<Category> category;
   List<Category> item;
+  List<Category> category;
   List<Category> footer;
-  List<dynamic> info;
+  List<Category> header;
+  List<Category> info;
 
   factory Widgets.fromJson(Map<String, dynamic> json) => Widgets(
-    header: List<Category>.from(json["header"].map((x) => Category.fromJson(x))),
     home: List<Category>.from(json["home"].map((x) => Category.fromJson(x))),
-    category: List<Category>.from(json["category"].map((x) => Category.fromJson(x))),
     item: List<Category>.from(json["item"].map((x) => Category.fromJson(x))),
+    category: List<Category>.from(json["category"].map((x) => Category.fromJson(x))),
     footer: List<Category>.from(json["footer"].map((x) => Category.fromJson(x))),
-    info: List<dynamic>.from(json["info"].map((x) => x)),
+    header: List<Category>.from(json["header"].map((x) => Category.fromJson(x))),
+    info: List<Category>.from(json["info"].map((x) => Category.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "header": List<dynamic>.from(header.map((x) => x.toJson())),
     "home": List<dynamic>.from(home.map((x) => x.toJson())),
-    "category": List<dynamic>.from(category.map((x) => x.toJson())),
     "item": List<dynamic>.from(item.map((x) => x.toJson())),
+    "category": List<dynamic>.from(category.map((x) => x.toJson())),
     "footer": List<dynamic>.from(footer.map((x) => x.toJson())),
-    "info": List<dynamic>.from(info.map((x) => x)),
+    "header": List<dynamic>.from(header.map((x) => x.toJson())),
+    "info": List<dynamic>.from(info.map((x) => x.toJson())),
   };
 }
 

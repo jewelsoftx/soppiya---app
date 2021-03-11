@@ -6,33 +6,44 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  double height = 40.0;
 
-
+  int widgetPosition = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: 80,
-          width: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+          widgetPosition==1? Text(
+            "1st widget",
+            style: TextStyle(fontSize: 30),
+          ):
+          Text(
+            "2nd widget",
+            style: TextStyle(fontSize: 30),
           ),
 
-          child: CircleAvatar(
-            backgroundImage: AssetImage("assets/images/cook.png"),
+          widgetPosition==1?
+          Text(
+            "2nd widget",
+            style: TextStyle(fontSize: 30),
+          ):Text(
+            "1st widget",
+            style: TextStyle(fontSize: 30),
           ),
-        ),
+
+          RaisedButton(onPressed: (){
+
+            setState(() {
+              widgetPosition = 2;
+            });
+
+
+          }),
+        ],
       ),
     );
   }
